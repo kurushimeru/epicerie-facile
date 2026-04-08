@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,6 +14,17 @@ interface CategorySidebarProps {
 
 export function CategorySidebar({ selectedCategories, onCategoryChange }: CategorySidebarProps) {
   const [isOpen, setIsOpen] = useState(true);
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (!header) return;
+    const update = () => setHeaderHeight(header.offsetHeight);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
 
   const toggle = (category: string) => {
     if (selectedCategories.includes(category)) {
@@ -25,14 +36,18 @@ export function CategorySidebar({ selectedCategories, onCategoryChange }: Catego
 
   return (
     <>
+      {/* Sidebar panel */}
       <div
-        className={`fixed top-16 left-0 h-[calc(100vh-4rem)] bg-white border-r shadow-lg transition-transform duration-300 z-30 ${
+        className={`fixed left-0 bg-white border-r shadow-lg transition-transform duration-300 z-30 w-[250px] ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
-        style={{ width: "250px" }}
+        style={{ top: headerHeight, height: `calc(100vh - ${headerHeight}px)` }}
       >
-        <div className="p-4 border-b">
+        <div className="flex items-center justify-between p-4 border-b">
           <h2 className="font-semibold">Catégories</h2>
+          <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
         </div>
         <ScrollArea className="h-[calc(100vh-8rem)]">
           <div className="p-4 space-y-3">
@@ -50,21 +65,15 @@ export function CategorySidebar({ selectedCategories, onCategoryChange }: Catego
             ))}
           </div>
         </ScrollArea>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute -right-10 top-4 bg-white border shadow-md rounded-l-none"
-          onClick={() => setIsOpen(false)}
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
       </div>
 
+      {/* Open button — anchored just below the header */}
       {!isOpen && (
         <Button
           variant="ghost"
           size="icon"
-          className="fixed left-0 top-20 bg-white border shadow-md rounded-l-none z-30"
+          className="fixed left-0 z-30 bg-white border-r border-b shadow-md rounded-none rounded-br-md"
+          style={{ top: headerHeight }}
           onClick={() => setIsOpen(true)}
         >
           <ChevronRight className="h-4 w-4" />
