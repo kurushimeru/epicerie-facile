@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm info:*)",
+      "Bash(npm install:*)",
+      "Bash(skills add:*)",
+      "mcp__plugin_figma_figma__get_design_context",
+      "Bash(git commit:*)",
+      "Bash(git:*)"
+    ]
+  }
+}
