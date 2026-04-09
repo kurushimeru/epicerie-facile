@@ -5,14 +5,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { categories } from "@/data/mockData";
+import { CATEGORIES } from "@/lib/constants";
+import { useAppContext } from "@/context/app-context";
 
-interface CategorySidebarProps {
-  selectedCategories: string[];
-  onCategoryChange: (categories: string[]) => void;
-}
-
-export function CategorySidebar({ selectedCategories, onCategoryChange }: CategorySidebarProps) {
+export function CategorySidebar() {
+  const { selectedCategories, setSelectedCategories } = useAppContext();
   const [isOpen, setIsOpen] = useState(true);
   const [headerHeight, setHeaderHeight] = useState(0);
 
@@ -28,9 +25,9 @@ export function CategorySidebar({ selectedCategories, onCategoryChange }: Catego
 
   const toggle = (category: string) => {
     if (selectedCategories.includes(category)) {
-      onCategoryChange(selectedCategories.filter((c) => c !== category));
+      setSelectedCategories(selectedCategories.filter((c) => c !== category));
     } else {
-      onCategoryChange([...selectedCategories, category]);
+      setSelectedCategories([...selectedCategories, category]);
     }
   };
 
@@ -51,7 +48,7 @@ export function CategorySidebar({ selectedCategories, onCategoryChange }: Catego
         </div>
         <ScrollArea className="h-[calc(100vh-8rem)]">
           <div className="p-4 space-y-3">
-            {categories.map((category) => (
+            {CATEGORIES.map((category) => (
               <div key={category} className="flex items-center space-x-2">
                 <Checkbox
                   id={category}

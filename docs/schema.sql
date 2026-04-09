@@ -1,0 +1,10 @@
+-- Ce fichier est une RÉFÉRENCE de lecture seulement.
+-- Source de vérité : supabase/migrations/
+--
+-- Pour appliquer :
+--   supabase db push          (local → remote)
+--   supabase db reset         (reset local + rejouer toutes les migrations)
+--   supabase migration new    (créer prochaine migration 000002, 000003...)
+--
+-- Migrations :
+--   20260408000001_init.sql   — schéma complet initial
