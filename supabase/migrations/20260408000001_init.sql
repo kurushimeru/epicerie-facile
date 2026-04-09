@@ -3,6 +3,7 @@
 -- Épiceries Faciles — Schéma complet initial
 -- ============================================================
 
+SET search_path TO public;
 
 -- ============================================================
 -- EXTENSIONS

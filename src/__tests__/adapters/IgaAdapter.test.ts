@@ -2,29 +2,31 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { IgaAdapter } from '@/adapters/IgaAdapter'
 import type { FlippSearchResponse } from '@/adapters/flipp/types'
 
-const mockResponse = (items: FlippSearchResponse['flyer_items']) =>
-  new Response(JSON.stringify({ flyer_items: items }), {
+const mockResponse = (items: FlippSearchResponse['items']) =>
+  new Response(JSON.stringify({ items }), {
     headers: { 'Content-Type': 'application/json' },
   })
 
 const makeItem = (overrides = {}) => ({
   id: 1,
+  flyer_item_id: 1,
+  flyer_id: 999,
   name: 'Lait 2% 4L',
-  price: 5.99,
-  sale_price: null,
-  brand: 'Natrel',
-  image_url: 'https://example.com/lait.jpg',
-  large_image_url: null,
-  description: null,
-  unit: '4L',
-  price_text: null,
+  current_price: 5.99,
+  original_price: null,
+  pre_price_text: null,
+  post_price_text: null,
   sale_story: null,
-  flyer_page_number: 1,
+  clean_image_url: 'https://f.wishabi.net/lait.jpg',
+  clipping_image_url: null,
   merchant_id: 100,
   merchant_name: 'IGA',
-  flyer_id: 999,
-  cutout_image_url: null,
-  category: 'Produits laitiers',
+  merchant_logo: null,
+  _L1: 'Food, Beverages & Tobacco',
+  _L2: 'Dairy',
+  valid_from: null,
+  valid_to: null,
+  item_type: 'flyer',
   ...overrides,
 })
 
@@ -54,7 +56,6 @@ describe('IgaAdapter', () => {
       storeChain: 'IGA',
       name: 'Lait 2% 4L',
       price: { amount: 5.99, currency: 'CAD' },
-      unit: '4L',
     })
   })
 
@@ -75,16 +76,16 @@ describe('IgaAdapter', () => {
     expect(results.map(r => r.externalId)).toEqual(['1', '3'])
   })
 
-  it('utilise sale_price si disponible', async () => {
+  it('utilise current_price, fallback original_price', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
-      mockResponse([makeItem({ price: 7.99, sale_price: 5.49 })])
+      mockResponse([makeItem({ current_price: null, original_price: 6.99 })])
     ))
 
     const promise = adapter.search('lait')
     await vi.runAllTimersAsync()
     const results = await promise
 
-    expect(results[0].price.amount).toBe(5.49)
+    expect(results[0].price.amount).toBe(6.99)
   })
 
   it('déduplique par externalId', async () => {
@@ -99,6 +100,18 @@ describe('IgaAdapter', () => {
     expect(results).toHaveLength(1)
   })
 
+  it('ignore les items sans nom', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
+      mockResponse([makeItem({ name: null })])
+    ))
+
+    const promise = adapter.search('lait')
+    await vi.runAllTimersAsync()
+    const results = await promise
+
+    expect(results).toEqual([])
+  })
+
   it('retourne [] si fetch échoue', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network error')))
 
@@ -109,8 +122,13 @@ describe('IgaAdapter', () => {
     expect(results).toEqual([])
   })
 
-  it('retourne [] si API retourne 500', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('', { status: 500 })))
+  it('retourne [] si réponse non-JSON (HTML)', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
+      new Response('<html>blocked</html>', {
+        status: 200,
+        headers: { 'Content-Type': 'text/html' },
+      })
+    ))
 
     const promise = adapter.search('lait')
     await vi.runAllTimersAsync()
@@ -121,7 +139,7 @@ describe('IgaAdapter', () => {
 
   it('ignore les items sans prix', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
-      mockResponse([makeItem({ price: null, sale_price: null })])
+      mockResponse([makeItem({ current_price: null, original_price: null })])
     ))
 
     const promise = adapter.search('lait')

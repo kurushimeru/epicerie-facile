@@ -2,16 +2,18 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { ProvigoAdapter } from '@/adapters/ProvigoAdapter'
 
 const mockResponse = (items: object[]) =>
-  new Response(JSON.stringify({ flyer_items: items }), {
+  new Response(JSON.stringify({ items }), {
     headers: { 'Content-Type': 'application/json' },
   })
 
 const makeItem = (overrides = {}) => ({
-  id: 1, name: 'Fromage cheddar', price: 12.99, sale_price: null,
-  brand: 'Black Diamond', image_url: null, large_image_url: null,
-  description: null, unit: '400g', price_text: null, sale_story: null,
-  flyer_page_number: 1, merchant_id: 500, merchant_name: 'Provigo',
-  flyer_id: 555, cutout_image_url: null, category: 'Fromagerie',
+  id: 1, flyer_item_id: 1, flyer_id: 555,
+  name: 'Fromage cheddar', current_price: 12.99, original_price: null,
+  pre_price_text: null, post_price_text: null, sale_story: null,
+  clean_image_url: null, clipping_image_url: null,
+  merchant_id: 500, merchant_name: 'Provigo', merchant_logo: null,
+  _L1: 'Food', _L2: 'Dairy', valid_from: null, valid_to: null,
+  item_type: 'flyer',
   ...overrides,
 })
 
@@ -36,7 +38,6 @@ describe('ProvigoAdapter', () => {
     ])))
     const promise = adapter.search('épicerie')
     await vi.runAllTimersAsync()
-    const results = await promise
-    expect(results).toHaveLength(1)
+    expect(await promise).toHaveLength(1)
   })
 })

@@ -38,6 +38,7 @@ export interface NormalizedProduct {
   storeChain: StoreChain
   name: string
   price: Money
+  originalPrice?: Money
   unit?: string
   imageUrl?: string
   productUrl: string
@@ -65,6 +66,7 @@ export interface ProductWithPrice {
   unit: string | null
   category: string | null
   price: Money
+  originalPrice: Money | null
   onSale: boolean
   scrapedAt: string
 }

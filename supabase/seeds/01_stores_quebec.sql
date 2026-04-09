@@ -1,5 +1,6 @@
 -- ============================================================
 -- Seed 01 — Épiceries du Québec
+SET search_path TO public;
 -- Chaînes + emplacements représentatifs par région
 -- Note: store_locations exhaustives → à importer via store locator APIs
 -- ST_MakePoint(longitude, latitude)

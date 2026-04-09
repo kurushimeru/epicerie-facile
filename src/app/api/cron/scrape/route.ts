@@ -86,8 +86,9 @@ export async function POST(req: NextRequest) {
         .map(p => ({
           product_id: idByExternalId.get(p.externalId)!,
           amount: p.price.amount,
+          original_amount: p.originalPrice?.amount ?? null,
           currency: p.price.currency,
-          on_sale: false,
+          on_sale: !!p.originalPrice,
           scraped_at: p.scrapedAt.toISOString(),
         }))
 

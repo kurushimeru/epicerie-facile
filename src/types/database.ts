@@ -141,6 +141,7 @@ export interface Database {
           id: string
           product_id: string
           amount: number
+          original_amount: number | null
           currency: CurrencyCode
           on_sale: boolean
           scraped_at: string
@@ -149,6 +150,7 @@ export interface Database {
           id?: string
           product_id: string
           amount: number
+          original_amount?: number | null
           currency?: CurrencyCode
           on_sale?: boolean
           scraped_at?: string
@@ -241,6 +243,7 @@ export interface Database {
         Row: {
           product_id: string
           amount: number
+          original_amount: number | null
           currency: CurrencyCode
           on_sale: boolean
           scraped_at: string

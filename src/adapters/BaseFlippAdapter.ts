@@ -34,6 +34,7 @@ export abstract class BaseFlippAdapter implements StoreAdapter {
     const results: NormalizedProduct[] = []
 
     for (const item of filtered) {
+      if (!item.name) continue
       const id = String(item.id)
       if (seen.has(id)) continue
       seen.add(id)
@@ -41,13 +42,17 @@ export abstract class BaseFlippAdapter implements StoreAdapter {
       const price = this.client.resolvePrice(item)
       if (price === null) continue
 
+      const originalPrice = item.original_price !== null && item.original_price !== undefined && item.original_price > price
+        ? { amount: item.original_price, currency: 'CAD' as const }
+        : undefined
+
       results.push({
         externalId: id,
         storeChain: this.chain,
         name: item.name,
         price: { amount: price, currency: 'CAD' },
-        unit: item.unit ?? undefined,
-        imageUrl: item.large_image_url ?? item.image_url ?? undefined,
+        originalPrice,
+        imageUrl: item.clean_image_url ?? undefined,
         productUrl: `https://flipp.com/flyers/${item.flyer_id}`,
         scrapedAt: new Date(),
       })

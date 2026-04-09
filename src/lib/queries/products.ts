@@ -18,6 +18,7 @@ type ProductRow = {
   } | null
   current_prices: {
     amount: number
+    original_amount: number | null
     currency: string
     on_sale: boolean
     scraped_at: string
@@ -39,7 +40,7 @@ async function _fetchProducts(): Promise<ProductWithPrice[]> {
       unit,
       category,
       stores ( chain, name ),
-      current_prices ( amount, currency, on_sale, scraped_at )
+      current_prices ( amount, original_amount, currency, on_sale, scraped_at )
     `)
     .limit(300)
 
@@ -65,6 +66,9 @@ async function _fetchProducts(): Promise<ProductWithPrice[]> {
         amount: p.current_prices![0].amount,
         currency: p.current_prices![0].currency as CurrencyCode,
       },
+      originalPrice: p.current_prices![0].original_amount !== null
+        ? { amount: p.current_prices![0].original_amount!, currency: p.current_prices![0].currency as CurrencyCode }
+        : null,
       onSale: p.current_prices![0].on_sale,
       scrapedAt: p.current_prices![0].scraped_at,
     }))

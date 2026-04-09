@@ -1,33 +1,35 @@
-// Types Flipp API — reverse-engineered depuis flipp.com
-// Peut nécessiter des ajustements si l'API change
+// Types Flipp API — backflipp.wishabi.com/flipp/items/search
+// Champ `items` = flyer items (circulaires papier numérisés)
 
 export interface FlippItem {
   id: number
-  name: string
-  price: number | null
-  sale_price: number | null
-  brand: string | null
-  image_url: string | null
-  large_image_url: string | null
-  description: string | null
-  unit: string | null
-  price_text: string | null
+  flyer_item_id: number
+  flyer_id: number
+  name: string | null
+  current_price: number | null
+  original_price: number | null
+  pre_price_text: string | null
+  post_price_text: string | null
   sale_story: string | null
-  flyer_page_number: number | null
+  clean_image_url: string | null
+  clipping_image_url: string | null
   merchant_id: number
   merchant_name: string
-  flyer_id: number
-  cutout_image_url: string | null
-  category: string | null
+  merchant_logo: string | null
+  _L1: string | null   // catégorie niveau 1 (ex: "Food, Beverages & Tobacco")
+  _L2: string | null   // catégorie niveau 2 (ex: "Beverages")
+  valid_from: string | null
+  valid_to: string | null
+  item_type: string
 }
 
 export interface FlippSearchResponse {
-  flyer_items?: FlippItem[]
   items?: FlippItem[]
+  ecom_items?: unknown[]  // e-commerce — ignoré
 }
 
 export interface FlippClientOptions {
-  /** Postal code québécois pour les résultats géolocalisés. Défaut : H2X1Y1 (Montréal centre) */
+  /** Code postal québécois. Défaut : H2X1Y1 (Montréal centre) */
   postalCode?: string
   locale?: 'fr-CA' | 'en-CA'
   timeoutMs?: number

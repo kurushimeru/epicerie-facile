@@ -2,16 +2,18 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { SuperCAdapter } from '@/adapters/SuperCAdapter'
 
 const mockResponse = (items: object[]) =>
-  new Response(JSON.stringify({ flyer_items: items }), {
+  new Response(JSON.stringify({ items }), {
     headers: { 'Content-Type': 'application/json' },
   })
 
 const makeItem = (overrides = {}) => ({
-  id: 1, name: 'Bananes', price: 1.49, sale_price: null,
-  brand: null, image_url: null, large_image_url: null,
-  description: null, unit: 'kg', price_text: null, sale_story: null,
-  flyer_page_number: 1, merchant_id: 400, merchant_name: 'Super C',
-  flyer_id: 666, cutout_image_url: null, category: 'Fruits',
+  id: 1, flyer_item_id: 1, flyer_id: 666,
+  name: 'Bananes', current_price: 1.49, original_price: null,
+  pre_price_text: null, post_price_text: null, sale_story: null,
+  clean_image_url: null, clipping_image_url: null,
+  merchant_id: 400, merchant_name: 'Super C', merchant_logo: null,
+  _L1: 'Food', _L2: 'Produce', valid_from: null, valid_to: null,
+  item_type: 'flyer',
   ...overrides,
 })
 

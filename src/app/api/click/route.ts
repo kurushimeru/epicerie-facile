@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
     // pas de session = anonyme, on continue
   }
 
-  // Hash IP — jamais stocker en clair
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0] ?? req.headers.get('x-real-ip') ?? ''
   const ipHash = ip ? createHash('sha256').update(ip).digest('hex') : null
 
@@ -46,6 +45,5 @@ export async function POST(req: NextRequest) {
     user_agent: req.headers.get('user-agent'),
   })
 
-  // Redirect 302 vers l'URL produit de l'enseigne
-  return NextResponse.redirect(body.productUrl, { status: 302 })
+  return NextResponse.json({ ok: true })
 }

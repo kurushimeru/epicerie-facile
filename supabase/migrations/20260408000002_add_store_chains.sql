@@ -1,4 +1,5 @@
 -- Migration 002 — Ajout chaînes québécoises manquantes
+SET search_path TO public;
 ALTER TYPE store_chain ADD VALUE IF NOT EXISTS 'SUPER_C';
 ALTER TYPE store_chain ADD VALUE IF NOT EXISTS 'PROVIGO';
 ALTER TYPE store_chain ADD VALUE IF NOT EXISTS 'GIANT_TIGER';
