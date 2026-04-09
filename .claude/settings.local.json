@@ -8,7 +8,22 @@
       "Bash(git commit:*)",
       "Bash(git:*)",
       "Bash(openssl rand:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(curl -s 'https://www.iga.net/Umbraco/Api/StoreLocatorApi/GetNearestStores?latitude=45.5017&longitude=-73.5673&radius=50' -H 'Accept: application/json' -H 'Referer: https://www.iga.net/' --compressed -o /tmp/iga_test.json)",
+      "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\" --max-time 8 \"https://www.iga.net/Umbraco/Api/StoreLocatorApi/GetNearestStores?lat=45.5017&lng=-73.5673&radius=50\" -H \"Accept: application/json\")",
+      "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\" --max-time 8 \"https://www.metro.ca/api/en/stores/search?latitude=45.5017&longitude=-73.5673&radius=50\" -H \"Accept: application/json\")",
+      "Bash(wait)",
+      "Bash(curl -sL -w \"\\\\nHTTP:%{http_code}\" --max-time 10 \"https://www.iga.net/Umbraco/Api/StoreLocatorApi/GetNearestStores?lat=45.5017&lng=-73.5673&radius=50\" -H \"Accept: application/json\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\" --max-time 8 \"https://www.loblaws.ca/api/pickup-locations?lat=45.5017&lng=-73.5673&radius=50\" -H \"Accept: application/json\")",
+      "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\" --max-time 10 \"https://www.iga.net/api/storelocator/search?lat=45.5017&lng=-73.5673&radius=50\" -H \"Accept: application/json\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\" --max-time 10 \"https://www.metro.ca/api/fr/stores?lat=45.5017&lng=-73.5673\" -H \"Accept: application/json\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\" --max-time 10 \"https://www.walmart.ca/en/stores-near-me/api?lat=45.5017&lng=-73.5673\" -H \"Accept: application/json\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -sL -w \"\\\\nHTTP:%{http_code}\" --max-time 10 \"https://www.iga.net/api/storelocator/search?lat=45.5017&lng=-73.5673&radius=50\" -H \"Accept: application/json\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\" --max-time 10 'https://api.pcid.ca/stores?banner=MAXI&lat=45.5017&lng=-73.5673&distance=50' -H \"Accept: application/json\")",
+      "Bash(curl -sL -w \"\\\\nHTTP:%{http_code}\" --max-time 10 \"https://www.iga.net/en/store-locator\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\" --max-time 15 'https://overpass-api.de/api/interpreter?data=[out:json][timeout:10];node[\"shop\"=\"supermarket\"]\\(45.4,-73.7,45.6,-73.4\\);out;')",
+      "Bash(curl -s -w '\\\\nHTTP:%{http_code}' --max-time 10 https://www.iga.net/Umbraco/Api/StoreLocatorApi/GetNearestStores -H 'Content-Type: application/json' -H 'User-Agent: Mozilla/5.0' -d '{\"latitude\":45.5017,\"longitude\":-73.5673,\"radiusInKm\":50}')",
+      "Bash(curl -s -w '\\\\nHTTP:%{http_code}' --max-time 20 --data-urlencode 'data=[out:json][timeout:15];node[\"shop\"=\"supermarket\"]\\(45.4,-73.7,45.65,-73.4\\);out body;' https://overpass-api.de/api/interpreter)"
     ]
   }
 }

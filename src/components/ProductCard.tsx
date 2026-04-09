@@ -33,12 +33,12 @@ export function ProductCard({ product }: { product: ProductWithPrice }) {
       tabIndex={0}
       onKeyDown={e => e.key === 'Enter' && handleClick()}
     >
-      <div className="relative aspect-square overflow-hidden bg-gray-100">
+      <div className="relative aspect-square overflow-hidden bg-white">
         <Image
           src={product.imageUrl ?? PLACEHOLDER}
           alt={product.name}
           fill
-          className="object-cover group-hover:scale-105 transition-transform duration-200"
+          className="object-contain group-hover:scale-105 transition-transform duration-200 p-1"
           sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 17vw"
           unoptimized={!!product.imageUrl}
         />

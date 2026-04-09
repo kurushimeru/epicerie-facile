@@ -67,36 +67,48 @@ export interface Database {
         Row: {
           id: string
           store_id: string
+          external_id: string
+          name: string
           address: string
           city: string
-          province: string | null
+          province: string
           country: string
-          postal_code: string | null
-          geom: unknown
+          postal_code: string
+          latitude: number
+          longitude: number
           phone: string | null
           hours: Json | null
           created_at: string
+          updated_at: string
         }
         Insert: {
           id?: string
           store_id: string
-          address: string
-          city: string
-          province?: string | null
+          external_id: string
+          name: string
+          address?: string
+          city?: string
+          province?: string
           country?: string
-          postal_code?: string | null
-          geom: string
+          postal_code?: string
+          latitude: number
+          longitude: number
           phone?: string | null
           hours?: Json | null
           created_at?: string
+          updated_at?: string
         }
         Update: {
+          name?: string
           address?: string
           city?: string
-          province?: string | null
-          postal_code?: string | null
+          province?: string
+          postal_code?: string
+          latitude?: number
+          longitude?: number
           phone?: string | null
           hours?: Json | null
+          updated_at?: string
         }
         Relationships: [
           { foreignKeyName: 'store_locations_store_id_fkey'; columns: ['store_id']; referencedRelation: 'stores'; referencedColumns: ['id'] }

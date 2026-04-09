@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/scrape",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/sync-stores",
+      "schedule": "0 3 * * *"
     }
   ]
 }

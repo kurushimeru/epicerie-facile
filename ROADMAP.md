@@ -10,32 +10,9 @@ Fondations      MVP Québec      Moteur B2B      International
 
 ---
 
-## PHASE 0 — Fondations (maintenant)
+## PHASE 0 — Fondations ✓ (terminé)
 
-**Objectif :** Infrastructure de données réelle. Fin du mock data.
-
-### Infrastructure
-- [ ] Créer projet Supabase
-- [ ] Appliquer `docs/schema.sql`
-- [ ] Client Supabase (`src/lib/supabase/client.ts` + `server.ts`)
-- [ ] Variables d'env (`.env.local`)
-
-### Adapteurs scraping
-- [ ] `src/adapters/types.ts` (interfaces + types)
-- [ ] `IgaAdapter.ts` + tests Vitest
-- [ ] `MetroAdapter.ts` + tests Vitest
-- [ ] `MaxiAdapter.ts` + tests Vitest
-- [ ] `ScraperOrchestrator.ts`
-- [ ] `/api/cron/scrape/route.ts` (Vercel Cron, toutes les heures)
-
-### Migration données
-- [ ] Remplacer `mockData.ts` → queries Supabase
-- [ ] ISR sur page home (`revalidateTag('prices')`)
-
-### Types globaux
-- [ ] `src/types/index.ts`
-
-**Critère de sortie :** Les prix affichés viennent de Supabase, mis à jour par cron.
+Infrastructure de données réelle, scraping Flipp, sync magasins OSM, ISR.
 
 ---
 
@@ -55,9 +32,8 @@ Fondations      MVP Québec      Moteur B2B      International
 - [ ] Gate freemium (5 produits max → upsell)
 
 ### Géolocalisation
-- [ ] PostGIS : stores dans rayon X km
+- [ ] Filtre par proximité sur page home (requête `store_locations`)
 - [ ] Composant `StoreMap.tsx`
-- [ ] Filtre par proximité sur page home
 
 ### i18n
 - [ ] next-intl setup (`fr`, `en`)
@@ -67,12 +43,10 @@ Fondations      MVP Québec      Moteur B2B      International
 ### Conformité Loi 25
 - [ ] `CookieBanner.tsx` (granulaire : essential/analytics/marketing)
 - [ ] `/api/consent/route.ts` + table `legal_consents`
-- [ ] Page `/legal/privacy`, `/legal/cgu`, `/legal/cookies`
-- [ ] `public/ads.txt`
+- [ ] Pages `/legal/privacy`, `/legal/cgu`, `/legal/cookies`
 
 ### Monétisation Free
 - [ ] Slots publicitaires injectés dynamiquement (tier = free)
-- [ ] `/api/click/route.ts` (outbound tracking)
 
 **Critère de sortie :** Utilisateur peut créer un compte, suivre des produits, recevoir une alerte.
 
@@ -109,20 +83,10 @@ Fondations      MVP Québec      Moteur B2B      International
 
 **Objectif :** Hors Québec — USA, Mexique, Espagne.
 
-### i18n complet
-- [ ] Traductions `es` (Espagnol)
-- [ ] Gestion multi-devises (USD, EUR, MXN)
+- [ ] Traductions `es` + gestion multi-devises (USD, EUR, MXN)
+- [ ] `WalmartUsAdapter.ts`, `MercadonaAdapter.ts`, `SorianaMexicoAdapter.ts`
 - [ ] Adaptation légale par pays
-
-### Nouveaux adapteurs
-- [ ] `WalmartUsAdapter.ts`
-- [ ] `MercadonaAdapter.ts` (Espagne)
-- [ ] `SorianaMexicoAdapter.ts`
-
-### Infrastructure
-- [ ] PostGIS multi-région
 - [ ] CDN edge caching par région
-- [ ] Supabase multi-region (si applicable)
 
 ---
 
@@ -132,4 +96,4 @@ Fondations      MVP Québec      Moteur B2B      International
 - Reconnaissance photo (scan code-barres)
 - Comparateur nutritionnel
 - API publique développeurs tiers
-- White-label B2B (enseigne achète la plateforme)
+- White-label B2B
